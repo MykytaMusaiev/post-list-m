@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { NewPostData, Post, PostDetails, RouteParamId } from '../types'
-
-const POSTS_LIMI = 20
-const BASE_URL = 'https://jsonplaceholder.typicode.com'
+import {
+  BASE_URL,
+  POSTS_LIMI,
+  SKELETON_TESTING_DELAY,
+  VALIDATION_PERIOD,
+} from '../constants'
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -12,9 +15,13 @@ const api = axios.create({
   },
 })
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const getPosts = async (): Promise<Post[]> => {
+  await delay(SKELETON_TESTING_DELAY)
+
   const response = await fetch(`${BASE_URL}/posts?_limit=${POSTS_LIMI}`, {
-    next: { revalidate: 60 },
+    next: { revalidate: VALIDATION_PERIOD },
   })
 
   if (!response.ok) {
@@ -31,12 +38,14 @@ export const getPosts = async (): Promise<Post[]> => {
 export const getPostAndComments = async (
   id: RouteParamId,
 ): Promise<PostDetails> => {
+  await delay(SKELETON_TESTING_DELAY)
+
   const postUrl = `${BASE_URL}/posts/${id}`
   const commentsUrl = `${BASE_URL}/posts/${id}/comments`
 
   const [postData, commData] = await Promise.all([
-    fetch(postUrl, { next: { revalidate: 60 } }),
-    fetch(commentsUrl, { next: { revalidate: 60 } }),
+    fetch(postUrl, { next: { revalidate: VALIDATION_PERIOD } }),
+    fetch(commentsUrl, { next: { revalidate: VALIDATION_PERIOD } }),
   ])
 
   if (!postData.ok) {
@@ -50,5 +59,6 @@ export const getPostAndComments = async (
 
 export const createPost = async (postData: NewPostData): Promise<Post> => {
   const response = await api.post<Post>('/posts', postData)
+  await delay(SKELETON_TESTING_DELAY)
   return response.data
 }
