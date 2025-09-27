@@ -33,3 +33,17 @@ export interface FabConfig {
   bgColor: string
   hoverBgColor: string
 }
+
+export interface AppConfig {
+  defaultLimit: number
+  limitOptions: number[]
+  skeletonTestingDelay: number
+  baseUrl: string
+  validationPeriod: number
+  limitForSecondPagination: number
+}
+
+export interface PaginatedPosts {
+  posts: Post[]
+  totalCount: number
+}

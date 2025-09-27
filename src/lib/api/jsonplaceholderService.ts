@@ -1,14 +1,15 @@
 import axios from 'axios'
-import { NewPostData, Post, PostDetails, RouteParamId } from '../types'
 import {
-  BASE_URL,
-  POSTS_LIMI,
-  SKELETON_TESTING_DELAY,
-  VALIDATION_PERIOD,
-} from '../constants'
+  NewPostData,
+  PaginatedPosts,
+  Post,
+  PostDetails,
+  RouteParamId,
+} from '../types'
+import { APP_CONFIG } from '../constants'
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: APP_CONFIG.baseUrl,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -17,35 +18,50 @@ const api = axios.create({
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export const getPosts = async (): Promise<Post[]> => {
-  await delay(SKELETON_TESTING_DELAY)
-
-  const response = await fetch(`${BASE_URL}/posts?_limit=${POSTS_LIMI}`, {
-    next: { revalidate: VALIDATION_PERIOD },
-  })
-
-  if (!response.ok) {
-    const status = response.status || 'Мережева помилка'
-    const errorMessage = `Помилка ${status}: Не вдалося отримати список постів.`
-
-    throw new Error(errorMessage)
+export const getPosts = async (
+  page: number = 1,
+  limit: number = APP_CONFIG.defaultLimit,
+): Promise<PaginatedPosts> => {
+  if (APP_CONFIG.skeletonTestingDelay > 0) {
+    await delay(APP_CONFIG.skeletonTestingDelay)
   }
 
-  const data = (await response.json()) as Post[]
-  return data
+  const url = `${APP_CONFIG.baseUrl}/posts?_page=${page}&_limit=${limit}`
+
+  try {
+    const response = await fetch(url, {
+      next: { revalidate: APP_CONFIG.validationPeriod },
+    })
+
+    if (!response.ok) {
+      const status = response.status || 'Мережева помилка'
+      const errorMessage = `Помилка ${status}: Не вдалося отримати список постів.`
+      throw new Error(errorMessage)
+    }
+
+    const totalCountHeader = response.headers.get('x-total-count')
+    const totalCount = totalCountHeader ? parseInt(totalCountHeader, 10) : 100
+
+    const posts = (await response.json()) as Post[]
+
+    return { posts, totalCount }
+  } catch (error) {
+    console.error('API Error:', error)
+    throw error
+  }
 }
 
 export const getPostAndComments = async (
   id: RouteParamId,
 ): Promise<PostDetails> => {
-  await delay(SKELETON_TESTING_DELAY)
+  await delay(APP_CONFIG.skeletonTestingDelay)
 
-  const postUrl = `${BASE_URL}/posts/${id}`
-  const commentsUrl = `${BASE_URL}/posts/${id}/comments`
+  const postUrl = `${APP_CONFIG.baseUrl}/posts/${id}`
+  const commentsUrl = `${APP_CONFIG.baseUrl}/posts/${id}/comments`
 
   const [postData, commData] = await Promise.all([
-    fetch(postUrl, { next: { revalidate: VALIDATION_PERIOD } }),
-    fetch(commentsUrl, { next: { revalidate: VALIDATION_PERIOD } }),
+    fetch(postUrl, { next: { revalidate: APP_CONFIG.validationPeriod } }),
+    fetch(commentsUrl, { next: { revalidate: APP_CONFIG.validationPeriod } }),
   ])
 
   if (!postData.ok) {
@@ -59,6 +75,6 @@ export const getPostAndComments = async (
 
 export const createPost = async (postData: NewPostData): Promise<Post> => {
   const response = await api.post<Post>('/posts', postData)
-  await delay(SKELETON_TESTING_DELAY)
+  await delay(APP_CONFIG.skeletonTestingDelay)
   return response.data
 }

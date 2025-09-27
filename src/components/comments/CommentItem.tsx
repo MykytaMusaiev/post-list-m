@@ -7,7 +7,9 @@ export default function CommentItem({ comment }: { comment: Comment }) {
         <p className="capitalize text-lg font-semibold text-gray-800">
           Name: {comment.name}
         </p>
-        <p className="text-sm text-blue-600">Email: {comment.email}</p>
+        <p className="text-sm text-blue-600 cursor-pointer">
+          Email: {comment.email}
+        </p>
       </div>
       <p className="text-gray-700">{comment.body}</p>
     </div>
