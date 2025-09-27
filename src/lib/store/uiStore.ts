@@ -1,16 +1,19 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
-interface UIState {
-  isLoading: boolean;
-  error: string | null;
-  setLoading: (status:boolean) => void;
-  setError: (errorMessage: string | null) => void;
+export interface UIState {
+  isLoading: boolean
+  setLoading: (status: boolean) => void
+  error: string | null
+  setError: (errorMessage: string | null) => void
+  successMessage: string | null
+  setSuccess: (message: string | null) => void
 }
 
 export const useUIStore = create<UIState>((set) => ({
   isLoading: false,
+  setLoading: (status) => set({ isLoading: status }),
   error: null,
-  setLoading: (status) => set({isLoading: status}),
-  setError: (errorMessage) => set({error: errorMessage}),
-}));
-
+  setError: (errorMessage) => set({ error: errorMessage }),
+  successMessage: null,
+  setSuccess: (message) => set({ successMessage: message }),
+}))

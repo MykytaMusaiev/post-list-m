@@ -1,3 +1,5 @@
-export default async function SinglePost() {
-  return <>newpst</>
+import NewPostPage from '@/components/pages/NewPostPage'
+
+export default async function NewPost() {
+  return <NewPostPage />
 }
