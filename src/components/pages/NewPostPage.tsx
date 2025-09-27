@@ -6,6 +6,8 @@ import { NewPostData, Post } from '@/lib/types'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { useUIStore } from '@/lib/store/uiStore'
+import FloatingActionButton from '../FloatingActionButton'
+import { FAB_CONFIG } from '@/lib/fabConfig'
 
 const initialFormData: NewPostData = {
   title: '',
@@ -88,7 +90,10 @@ export default function NewPostPage() {
   }
 
   return (
-    <div className="max-w-xl w-[80%] mx-auto p-6 bg-white shadow-xl rounded-lg mt-10">
+    <div
+      className="max-w-xl w-[80%] mx-auto p-6
+     bg-white shadow-xl rounded-lg mt-10 "
+    >
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
           {error}
@@ -131,6 +136,7 @@ export default function NewPostPage() {
           {isLoading ? 'Створення...' : 'Опублікувати пост'}
         </button>
       </form>
+      <FloatingActionButton {...FAB_CONFIG.HOME} />
     </div>
   )
 }

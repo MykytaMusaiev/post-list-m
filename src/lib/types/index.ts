@@ -25,3 +25,11 @@ export interface PostDetails {
   post: Post
   comments: Comment[]
 }
+
+export interface FabConfig {
+  href: string
+  label: string
+  icon: string
+  bgColor: string
+  hoverBgColor: string
+}
