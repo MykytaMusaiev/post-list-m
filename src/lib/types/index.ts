@@ -1,14 +1,27 @@
+export type RouteParamId = Post['id'] | string
+
 export interface Post {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
+  id: number
+  userId: number
+  title: string
+  body: string
 }
 
 export interface Comment {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
+  id: number
+  postId: number
+  name: string
+  email: string
+  body: string
+}
+
+export interface NewPostData {
+  title: string
+  body: string
+  userId: number
+}
+
+export interface PostDetails {
+  post: Post
+  comments: Comment[]
 }

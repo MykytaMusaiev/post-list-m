@@ -41,7 +41,7 @@
     "*.{js,jsx,ts,tsx}": [
       "pnpm exec eslint --fix",
       "pnpm exec prettier --write",
-      "pnpm exec jest --bail --findRelatedTests"
+      "pnpm exec jest --bail --findRelatedTests --passWithNoTests"
     ],
     "*.{json,css,scss,md}": [
       "pnpm exec prettier --write"

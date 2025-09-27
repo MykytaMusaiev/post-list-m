@@ -18,7 +18,10 @@ export const getPosts = async (): Promise<Post[]> => {
   })
 
   if (!response.ok) {
-    throw new Error('Не вдалося отримати список постів.')
+    const status = response.status || 'Мережева помилка'
+    const errorMessage = `Помилка ${status}: Не вдалося отримати список постів.`
+
+    throw new Error(errorMessage)
   }
 
   const data = (await response.json()) as Post[]
