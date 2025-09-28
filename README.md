@@ -1,12 +1,10 @@
-Звісно\! Ось переклад вашого лаконічного та професійного `README.md` на англійську мову.
-
----
-
-# 🚀 Next.js App Router Social Feed Prototype
+# Next.js App Router Social Feed Prototype
 
 ## Overview
 
 This project is a web application prototype for displaying and creating posts, developed using **Next.js 14 (App Router)**. It primarily demonstrates the utilization of Server Components, Streaming, and client-side state management.
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -15,6 +13,7 @@ This project is a web application prototype for displaying and creating posts, d
 - **Styling:** Tailwind CSS
 - **State Management:** Zustand
 - **Data:** JSONPlaceholder
+- **Testing:** **Jest, React Testing Library**
 
 ---
 
@@ -26,6 +25,29 @@ This project is a web application prototype for displaying and creating posts, d
   - **Pagination:** Implemented using URL parameters (`searchParams`) for dynamic page switching.
   - **Global State:** Centralized management of notifications (Toast) via Zustand.
   - **Refactoring:** All configurations (FAB, routes, limits) are extracted into a central constants file.
+
+---
+
+## 🧪 Testing
+
+The project includes comprehensive **Unit Tests** for key application logic, utilizing **Jest** and **React Testing Library (RTL)** to ensure reliability of components and data fetching.
+
+### Test Coverage
+
+Unit tests cover the following critical areas:
+
+- **API Service:** Testing data fetching (`getPosts`) and mutation (`createPost`) logic, including error handling and parameter passing.
+- **Pagination Logic:** Ensuring correct calculation of page numbers, disabling of buttons, and navigation.
+- **Limit Selection:** Verifying that URL parameters (`limit` and `page`) are updated correctly upon user selection.
+- **New Post Page:** Comprehensive testing of form submission, **client-side validation (on blur)**, API success/failure handling, and router navigation.
+
+### Running Tests
+
+To run the unit tests, use the following command:
+
+```bash
+npm run test
+```
 
 ---
 
@@ -43,19 +65,6 @@ This project is a web application prototype for displaying and creating posts, d
 
 ---
 
-## 🧪 Skeleton Testing
+# 🎉 Final Note
 
-A mechanism to add an artificial delay is available to visually demonstrate the **Streaming** and `loading.tsx` behavior.
-
-Modify the constant in the `src/lib/constants.ts` file to adjust the delay time:
-
-```typescript
-// src/lib/constants.ts
-export const SKELETON_TESTING_DELAY = 1000 // Delay time in ms
-```
-
----
-
-## 📝 Next Steps
-
-- [ ] Integration of unit tests.
+**_Thank you for your time and attention to this project\!_** 🚀

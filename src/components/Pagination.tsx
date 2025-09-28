@@ -85,6 +85,7 @@ export default function PaginationControls({
           onClick={() => navigate(1)}
           disabled={isFirst}
           className={`${baseButtonClass} ${inactiveClass}`}
+          aria-label="First page"
         >
           &lt;&lt;
         </button>
@@ -92,6 +93,7 @@ export default function PaginationControls({
           disabled={isFirst}
           onClick={() => navigate(currentPage - 1)}
           className={`${baseButtonClass} ${inactiveClass}`}
+          aria-label="Previous page"
         >
           &lt;
         </button>
@@ -100,6 +102,7 @@ export default function PaginationControls({
           onClick={() => navigate(currentPage + 1)}
           disabled={isLast}
           className={`${baseButtonClass} ${inactiveClass}`}
+          aria-label="Next Page"
         >
           &gt;
         </button>
@@ -107,6 +110,7 @@ export default function PaginationControls({
           onClick={() => navigate(totalPages)}
           disabled={isLast}
           className={`${baseButtonClass} ${inactiveClass}`}
+          aria-label="Last page"
         >
           &gt;&gt;
         </button>

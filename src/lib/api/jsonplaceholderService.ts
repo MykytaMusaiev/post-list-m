@@ -46,7 +46,6 @@ export const getPosts = async (
 
     return { posts, totalCount }
   } catch (error) {
-    console.error('API Error:', error)
     throw error
   }
 }

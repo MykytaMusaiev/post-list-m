@@ -32,7 +32,7 @@ export default function NewPostPage() {
     if (!value.trim()) {
       setValidationErrors((prev) => ({
         ...prev,
-        [name]: 'Це поле не може бути порожнім.',
+        [name]: 'Fill this field!',
       }))
     } else {
       setValidationErrors((prev) => ({
@@ -72,7 +72,7 @@ export default function NewPostPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.title.trim() || !formData.body.trim()) {
-      setError("Будь ласка, заповніть усі обов'язкові поля.")
+      setError('Please fill all required fields.')
       return
     }
     setLoading(true)
@@ -80,10 +80,10 @@ export default function NewPostPage() {
 
     try {
       const newPost: Post = await createPost(formData)
-      setSuccess('Пост успішно створено!')
+      setSuccess('Post created succesfully!')
       router.push('/')
     } catch (err) {
-      setError('Не вдалося створити пост. Спробуйте пізніше.')
+      setError('Post creation failed. Try again later.')
     } finally {
       setLoading(false)
     }
@@ -100,9 +100,13 @@ export default function NewPostPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+        aria-label="Create post form"
+      >
         <input
-          placeholder="Введіть заголовок"
+          placeholder="Enter title"
           type="text"
           name="title"
           required
@@ -114,9 +118,14 @@ export default function NewPostPage() {
       `}
           disabled={isLoading}
         />
+        {validationErrors.title && (
+          <p className="text-red-500 text-sm mt-1" role="alert">
+            {validationErrors.title}
+          </p>
+        )}
         <textarea
           name="body"
-          placeholder="Введіть текст"
+          placeholder="Enter text"
           required
           onChange={handleChange}
           onBlur={handleBlur}
@@ -126,14 +135,20 @@ export default function NewPostPage() {
       `}
           disabled={isLoading}
         />
+        {validationErrors.title && (
+          <p className="text-red-500 text-sm mt-1" role="alert">
+            {validationErrors.body}
+          </p>
+        )}
 
         <button
+          aria-label="Create new post"
           type="submit"
           disabled={isLoading}
           className={`w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white 
                 ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 transition-colors'}`}
         >
-          {isLoading ? 'Створення...' : 'Опублікувати пост'}
+          {isLoading ? 'Creating...' : 'Publish your post'}
         </button>
       </form>
       <FloatingActionButton {...FAB_CONFIG.HOME} />
