@@ -6,6 +6,12 @@ This project is a web application prototype for displaying and creating posts, d
 
 ---
 
+## 🌐 Live Demo
+
+[DEMO](https://post-list-m.vercel.app/)
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js (App Router, Server Components)
